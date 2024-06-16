@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,11 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="assets/css/all.css" />
+  <link rel="stylesheet" href="{% static 'css/all.css' %}" />
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="assets/css/bootstrap.css" />
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
 
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
 
@@ -19,86 +21,27 @@
 
 <body id="body-pd">
 
-    <!-- Right Navbar -->
-    <div class="r-navbar" id="nav-bar">
-    <nav class="r-nav">
-        <div>
-        <a href="#" class="nav_logo">
-            <i class="bx bx-layer nav_logo-icon"></i>
-            <h5 class="nav_logo-name m-0">موضوعات</h5>
-        </a>
-        <div class="nav_list">
-            <a href="#" class="nav_link active"> <i class="bx bx-grid-alt nav_icon"></i> <span class="nav_name">موضوع اول</span> </a>
-            <a href="#" class="nav_link"> <i class="bx bx-user nav_icon"></i> <span class="nav_name">موضوع دوم</span> </a>
-            <a href="#" class="nav_link"> <i class="bx bx-message-square-detail nav_icon"></i> <span class="nav_name">موضوع سوم</span> </a>
-            <a href="#" class="nav_link"> <i class="bx bx-bookmark nav_icon"></i> <span class="nav_name">موضوع چهارم</span> </a>
-            <a href="#" class="nav_link"> <i class="bx bx-folder nav_icon"></i> <span class="nav_name">موضوع پنجم</span> </a>
-            <a href="#" class="nav_link"> <i class="bx bx-bar-chart-alt-2 nav_icon"></i> <span class="nav_name">موضوع ششم</span> </a>
-        </div>
-        </div>
-        <!-- <a href="#" class="nav_link"> <i class="bx bx-log-out nav_icon"></i> <span class="nav_name">بیلاخ</span> </a> -->
-    </nav>
-    </div>
-    <!-- End Right Navbar -->
 
-    <!-- Header -->
-    <header class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top header" id="header">
-        <div class="container">
-        <div class="header_toggle"><i class="bx bx-menu text-white" id="header-toggle"></i></div>
+    <!--  Right Navbar -->
+    {% include 'partials/_rightbar.html' %}
 
-        <a class="navbar-brand" href="index.html">
-            <img src="assets/img/logo.png" class="logo" alt="" />
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="navbar-nav">
-            <li class="nav-item active mr-3">
-                <a class="nav-link" href="index.html">خانه</a>
-            </li>
-            <li class="nav-item mr-3">
-                <a class="nav-link" href="about.html">درباره</a>
-            </li>
-            <!-- <li class="nav-item mr-3">
-                <a class="nav-link" href="index.html">لیست گزینه ها</a>
-            </li> -->
-            </ul>
-            <div class="mr-auto">
-            <form action="">
-                <div class="input-group input-group-sm">
-                <button type="submit" class="input-group-text" id="basic-addon1" style="border-radius: 0 3px 3px 0 !important"><i class="fas fa-search"></i></button>
 
-                <input type="text" class="form-control" placeholder="جستجو..." aria-label="Username" aria-describedby="basic-addon1" />
-                </div>
-            </form>
-            </div>
-            <ul class="navbar-nav mr-auto">
-            <li class="nav-item mr-3">
-                <a class="nav-link" href="register.html"><i class="fas fa-user-plus"></i> ثبت نام </a>
-            </li>
-            <li class="nav-item mr-3">
-                <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt"></i> ورود </a>
-            </li>
-            </ul>
-        </div>
-        </div>
-    </header>
-    <!-- End Header -->
+    <!--  Navbar -->
+    {% include 'partials/_navbar.html' %}
 
+
+    <!-- content -->
     {% block content %}
     {% endblock content %}
 
 
-   <!-- Footer -->
-   <footer id="main-footer" class="py-4 bg-primary text-white text-center">
-    Copyright &copy;
-    <span class="year"></span> Ryan Team
-  </footer>
+    <!-- Footer -->
+    {% include 'partials/_footer.html' %}
 
-  <script src="assets/js/jquery-3.3.1.min.js "></script>
-  <script src="assets/js/bootstrap.bundle.min.js "></script>
-  <script src="assets/js/main.js "></script>
-  
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %} "></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %} "></script>
+  <script src="{% static 'js/main.js' %} "></script>
+
 </body>
 </html>
