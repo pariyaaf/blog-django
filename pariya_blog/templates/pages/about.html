@@ -1,5 +1,6 @@
-
 {% extends 'base.html'%}
+{% load static %}
+
 {% block content %}
 
     
@@ -35,7 +36,7 @@
             <div class="col-md-8">
               <h2>خیلی کارای خفنی قراره بکنیم!</h2>
               <p class="lead">تمام امتیازات این وبلاگ متعلق به گروه Pariya-Group می باشد.</p>
-              <img src="assets/img/about.jpg" alt="" />
+              <img src="{% static 'img/about.jpg' %}" alt="" />
               <p class="mt-4" style="font-size: 15px;">
                 گروه وبلاگ نویسی pariya-Group در تلاش است تا با جمع آوری یک تیم خبره در عرصه تولید محتوا، برنامه نویسی و تصویر برداری حرفه ای به انتقال دانش و افزایش بهره وری در گروه ها و شرکت ها جانی تازه ببخشد.
                 مثلا اینم یه متن از من... 😉
@@ -43,7 +44,7 @@
             </div>
             <div class="col-md-4">
               <div class="card">
-                <img class="card-img-top" src="assets/img/bloggers/Ryan-Group.png" alt="Ahhh!!!" title="Ahhhh!!!!" />
+                <img class="card-img-top" src="{% static 'img/Ryan-Group.png' %}" alt="Ahhh!!!" title="Ahhhh!!!!" />
                 <div class="card-body">
                   <h5 class="card-title">Pariya-Group</h5>
                   <h6 class="text-secondary">سلام!</h6>
