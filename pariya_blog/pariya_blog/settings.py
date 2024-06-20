@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'posts.apps.PostsConfig',
     'bloggers.apps.BloggersConfig',
-    'common.apps.CommonConfig'
+    'common.apps.CommonConfig',
+    'comments.apps.CommentsConfig'
 
 
 
