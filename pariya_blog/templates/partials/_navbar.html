@@ -24,7 +24,8 @@
         >
             <a class="nav-link" href="{% url 'about' %}">درباره ما</a>
         </li>
-        <li class="nav-item mr-3">
+        <li class="nav-item {% if request.path == 'posts' %}active{% endif %} mr-3"
+        >
             <a class="nav-link" href="{% url 'posts' %}">لیست پست ها</a>
         </li>
         </ul>
