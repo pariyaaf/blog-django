@@ -1,0 +1,18 @@
+#header{
+    background-color: rgb(64, 0, 0);
+    color:  white;
+}
+
+#branding h1{
+    color: white;
+    font-weight: bold;
+}
+
+div.breadcrumbs {
+    background-color: rgb(21, 1, 1);
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background-color:  rgb(45, 0, 0);
+
+}
