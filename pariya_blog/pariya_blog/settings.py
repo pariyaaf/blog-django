@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'bloggers.apps.BloggersConfig',
     'common.apps.CommonConfig',
-    'comments.apps.CommentsConfig'
+    'comments.apps.CommentsConfig',
+    'django.contrib.humanize'
 
 
 
