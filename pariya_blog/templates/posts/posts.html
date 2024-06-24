@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
-
+{% load humanize %}
 {% block content %}
     <!-- Breadcrumb -->
     <section id="bc" class="mt-3">
@@ -18,102 +18,94 @@
       </div>
     </section>
 
-    <!-- Listings -->
-    <section id="listings" class="py-3" style="margin-bottom: 3rem">
-      <div class="container">
-        <h3 class="text-center mb-3">همه پست ها</h3>
-        <div class="row">
-          <!-- Listing 1 -->
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card listing-preview">
-              <div style="position: relative">
-                <img class="card-img-top" src="assets/img/pictures/pic-1.jpg" alt="" />
-                <div class="text-image-config p-1">
-                  <span class="badge text-white" style="background-color: #cb1c8d">268 <i
-                      class="fas fa-comment"></i></span>
-                  <span class="badge text-white mr-2" style="background-color: #e0144c">268 <i
-                      class="fas fa-heart"></i></span>
-                </div>
-              </div>
-              <!-- <div class="card-body text-truncate" style="display: -webkit-box !important; -webkit-line-clamp: 4; -webkit-box-orient: vertical; white-space: normal"> -->
-              <div class="card-body" style="font-size: 13px; padding-bottom: 0">
-                <div class="listing-heading text-right">
-                  <h4 class="text-primary">عنوان توضیح</h4>
-                  <p><i class="fas fa-pen" style="color: #e0144c"></i> نویسنده</p>
-                </div>
-                <hr />
-                <div class="multiline-ellipsis text-right">
-                  شتیسکنمبتشکنمیسبت کشتشسیب تیسبش کمنشیت بیشکمس بیش سیبشتتنیبشس شبینکست کیشبست یبشمکست یبشکمت کشمیب
-                  کنمشیبس شیبت بشیکنمت شبیسکمنتشبی مکنتشبی مکنشیبست مکنشیست شیمسکت یشبسمنت شیبسکنمتش
-                  بیسکمنتشبیس کمشنبی تکمشنبست شبکیمت شبیمست شکبیسنت شبیکمنت شبیکمنشب س
-                </div>
-              </div>
-              <hr />
-              <div class="px-3 pb-3 pt-0" style="padding-top: 0">
-                <a href="post-detail.html" class="btn btn-primary btn-block">بیشتر...</a>
-              </div>
-            </div>
-          </div>
-          <!-- 2 -->
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card listing-preview">
-              <div style="position: relative">
-                <img class="card-img-top" src="assets/img/pictures/pic-1.jpg" alt="" />
-                <div class="text-image-config p-1">
-                  <span class="badge text-white" style="background-color: #cb1c8d">268 <i
-                      class="fas fa-comment"></i></span>
-                  <span class="badge text-white mr-2" style="background-color: #e0144c">268 <i
-                      class="fas fa-heart"></i></span>
-                </div>
-              </div>
-              <!-- <div class="card-body text-truncate" style="display: -webkit-box !important; -webkit-line-clamp: 4; -webkit-box-orient: vertical; white-space: normal"> -->
-              <div class="card-body" style="font-size: 13px; padding-bottom: 0">
-                <div class="listing-heading text-right">
-                  <h4 class="text-primary">عنوان توضیح</h4>
-                  <p><i class="fas fa-pen" style="color: #e0144c"></i> نویسنده</p>
-                </div>
-                <hr />
-                <div class="multiline-ellipsis text-right">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi iure tempore facere ut nam laudantium
-                  maxime, perspiciatis sit quam voluptas harum atque aliquid voluptatem esse? Ea
-                  distinctio molestias aliquam sit.
-                </div>
-              </div>
-              <hr />
-              <div class="px-3 pb-3 pt-0" style="padding-top: 0">
-                <a href="post-detail.html" class="btn btn-primary btn-block">بیشتر...</a>
-              </div>
-            </div>
-          </div>
-        </div>
+    {% if posts %}
 
-        <!-- Pagination -->
-        <div class="row">
-          <div class="col-md-12">
-            <ul class="pagination">
-              <li class="page-item">
-                <a href="#" class="page-link">&laquo;</a>
-              </li>
-              <li class="page-item disabled">
-                <a class="page-link">&laquo;</a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link">1</a>
-              </li>
-              <li class="page-item">
-                <a href="#" class="page-link">2</a>
-              </li>
-              <li class="page-item">
-                <a href="#" class="page-link">&raquo;</a>
-              </li>
-              <li class="page-item disabled">
-                <a class="page-link">&raquo;</a>
-              </li>
-            </ul>
+      <!-- Listings -->
+      <section id="listings" class="py-3" style="margin-bottom: 3rem">
+        <div class="container">
+          <h3 class="text-center mb-3">همه پست ها</h3>
+          <div class="row">
+            {% for post in posts %}
+            <!-- Listing 1 -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card listing-preview">
+                <div style="position: relative">
+                  <img class="card-img-top" src="{{  post.photo_main.url }}" alt="" />
+                  <div class="text-image-config p-1">
+                    <span class="badge text-white" style="background-color: #cb1c8d">{{ post.comments_count | intcomma}} <i
+                        class="fas fa-comment"></i></span>
+                    <span class="badge text-white mr-2" style="background-color: #e0144c">{{ post.like_counts | intcomma }} <i
+                        class="fas fa-heart"></i></span>
+                  </div>
+                </div>
+                <!-- <div class="card-body text-truncate" style="display: -webkit-box !important; -webkit-line-clamp: 4; -webkit-box-orient: vertical; white-space: normal"> -->
+                <div class="card-body" style="font-size: 13px; padding-bottom: 0">
+                  <div class="listing-heading text-right">
+                    <h4 class="text-primary"> {{ post.title }} </h4>
+                    <p><i class="fas fa-pen" style="color: #e0144c"></i> {{ post.blogger }} </p>
+                  </div>
+                  <hr />
+                  <div class="multiline-ellipsis text-right">
+                    {{ post.text}}
+                  </div>
+                </div>
+                <hr />
+                <div class="px-3 pb-3 pt-0" style="padding-top: 0">
+                  <a href="{% url 'post' post.id %}" class="btn btn-primary btn-block">بیشتر...</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            
           </div>
+
+          <!-- Pagination -->
+      <div class="row">
+        <div class="col-md-12">
+          {% if posts.has_other_pages %}
+            <ul class="pagination">
+              {% if posts.has_previous %}
+              <li class="page-item">
+                <a href="?page={{posts.previous_page_number}}" class="page-link">&laquo;</a>
+              </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&laquo;</a>
+                </li>
+              {% endif %}
+              {% for i in posts.paginator.page_range %}
+                {% if posts.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link">{{i}}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a href="?page={{i}}" class="page-link">{{i}}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+              {% if posts.has_next %}
+                <li class="page-item">
+                  <a href="?page={{posts.next_page_number}}" class="page-link">&raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+              {% endif %}
+              
+            </ul>
+          {% endif %}
+          
+          
         </div>
       </div>
-  </div>
-  </section>
-  <!-- End Listings -->
+    </div>
+    </section>
+    <!-- End Listings -->
+
+  {% else %}
+  <div class="col-mid-12">هیچ پستی موجود نمی باشد</div>
+  {% endif %}
+
 {% endblock content %}
