@@ -1,6 +1,5 @@
 from django.contrib import admin
 from bloggers.models import BloggerModel
-
 from .models import PostModel
 
 class PostAdmin(admin.ModelAdmin):
@@ -24,10 +23,7 @@ class PostAdmin(admin.ModelAdmin):
 
     # static fields for anyusers
     def save_model(self, request, obj, form, change):
-        if not obj.blogger:
-            obj.blogger = BloggerModel.objects.filter(user=request.user).first()
-        if obj.blogger is None:
-            raise ValueError("The current user is not associated with any BloggerModel.")
+        obj.blogger = BloggerModel.objects.filter(user=request.user).first()
         super().save_model(request, obj, form, change)
 
 
