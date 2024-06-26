@@ -87,8 +87,8 @@
             <div class="col-md-6">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-thumbs-up"></i>
-                  <span>{{post.likes_count | intcomma}}</span>
+                  <i class="fas fa-thumbs-up" id="like-button" data-liked="{{ liked }}" onclick="toggleLike({{ post.id }})"></i>
+                    <span id="likes-count">{{ post.likes.count|intcomma }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
                   <i class="fas fa-comments"></i>
@@ -109,5 +109,21 @@
       </div>
     </div>
   </section>
+
+  <script>
+    function toggleLike(postId) {
+        $.ajax({
+            url: `/like/${postId}/`,
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                var likeButton = $('#like-button');
+                $('#likes-count').text(response.likes_count);
+            }
+        });
+    }
+  </script>
 
   {% endblock content %}
