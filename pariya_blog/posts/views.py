@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import PostModel
 from django.core.paginator import Paginator
-
+from django.db.models import Q
 
 def index(request):
     posts = PostModel.objects.order_by('-created_at').filter(is_published=True)
@@ -20,4 +20,20 @@ def post(request, post_id):
 
 
 def search(request):
-    return render(request, 'posts/posts.html')
+    posts = PostModel.objects.order_by('-created_at').filter(is_published=True)
+    
+    # check if user search something
+    if 'search_text' in request.GET:
+        search_text = request.GET['search_text']
+
+    if search_text:
+        posts = posts.filter(Q(title__icontains=search_text)
+                            | Q(text__icontains=search_text)
+                            | Q(blogger__name__icontains=search_text))
+
+    context = {
+        'posts' : posts
+    }
+                            
+        
+    return render(request, 'posts/posts.html', context)
