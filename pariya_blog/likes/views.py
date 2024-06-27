@@ -5,7 +5,6 @@ from django.http import JsonResponse
 
 
 def like_post(request, post_id):
-    pass
     post = get_object_or_404(PostModel, id=post_id)
     ip_address = request.META['REMOTE_ADDR']
     like, created = LikeModel.objects.get_or_create(post=post, ip_address=ip_address)
