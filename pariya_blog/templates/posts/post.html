@@ -106,10 +106,67 @@
             </div>
           </div>
         </div>
+
+        <div>
+          <h3>کامنت ها</h3>
+        </div>
+        <!-- Comment Form -->
+        <form method="post" id="commentForm" class="mt-4">
+          {% csrf_token %}
+          <div class="form-group">
+              {{ form.non_field_errors }}
+              <div class="form-row">
+                  <div class="form-col">
+                      <label for="{{ form.user_name.id_for_label }}" class="form-label">{{ form.user_name.label }}</label>
+                      {{ form.user_name }}
+                      {% if form.user_name.help_text %}
+                          <small class="form-text">{{ form.user_name.help_text }}</small>
+                      {% endif %}
+                      {% for error in form.user_name.errors %}
+                          <div class="alert">{{ error }}</div>
+                      {% endfor %}
+                  </div>
+                  <div class="form-col">
+                      <label for="{{ form.user_email.id_for_label }}" class="form-label">{{ form.user_email.label }}</label>
+                      {{ form.user_email }}
+                      {% if form.user_email.help_text %}
+                          <small class="form-text">{{ form.user_email.help_text }}</small>
+                      {% endif %}
+                      {% for error in form.user_email.errors %}
+                          <div class="alert">{{ error }}</div>
+                      {% endfor %}
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="{{ form.comment_text.id_for_label }}" class="form-label">{{ form.comment_text.label }}</label>
+                  {{ form.comment_text }}
+                  {% if form.comment_text.help_text %}
+                      <small class="form-text">{{ form.comment_text.help_text }}</small>
+                  {% endif %}
+                  {% for error in form.comment_text.errors %}
+                      <div class="alert">{{ error }}</div>
+                  {% endfor %}
+              </div>
+          </div>
+          <input type="hidden" id="id_post_id" name="post_id" value="{{ post.id }}">
+          <button type="button" onclick="submitForm()" class="btn btn-primary">ارسال کامنت</button>
+        </form>
+        
+        <!-- Comments Section -->
+        <ul class="list-group mt-2">
+          {% for comment in comments %}
+              <li class="list-group-item">
+                  <strong>{{ comment.user_name }}</strong>
+                  <span class="text-muted"> در {{ comment.comment_date | naturalday }}</span>
+                  <p>{{ comment.comment_text }}</p>
+              </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </section>
 
+  # handle like
   <script>
     function toggleLike(postId) {
         $.ajax({
@@ -125,5 +182,29 @@
         });
     }
   </script>
+
+  # handl comments
+  <script>
+    function submitForm() {
+      var formData = new FormData(document.getElementById('commentForm'));
+      formData.append('post', document.getElementById('id_post_id').value);
+  
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', "{% url 'create_comment' %}");
+      xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                  console.log(xhr.responseText);
+              } else {
+                  console.error('خطا در ارسال فرم');
+              }
+          }
+      };
+      xhr.send(formData);
+  }
+  
+  </script>
+
 
   {% endblock content %}
