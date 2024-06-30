@@ -50,7 +50,9 @@ INSTALLED_APPS = [
     'common.apps.CommonConfig',
     'comments.apps.CommentsConfig',
     'django.contrib.humanize',
-    'likes.apps.LikesConfig'
+    'likes.apps.LikesConfig',
+    'accounts.apps.AccountsConfig',
+
 
 
 
@@ -151,3 +153,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media Folders
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# messages
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    messages.SUCCESS: 'secondary',
+}
