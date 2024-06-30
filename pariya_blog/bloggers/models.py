@@ -10,7 +10,7 @@ class BloggerModel(BaseModel):
 
     name = models.CharField(max_length=255)
     photo = models.ImageField(upload_to="photos/bloggers/%Y/%m")
-    birth_date = models.DateField(blank=True)
+    birth_date = models.DateField(blank=True, null=True)
     #register date
     post_count = models.IntegerField(default=0)
     bio = models.TextField()
