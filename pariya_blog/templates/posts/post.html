@@ -20,7 +20,7 @@
           <li class="breadcrumb-item">
             <a href="{% url 'posts' %}">پست ها</a>
           </li>
-          <li class="breadcrumb-item active"> {{ post.title}} </li>
+          <li class="breadcrumb-item active">{{ post.title|truncatechars:20 }}</li>
         </ol>
       </nav>
     </div>
