@@ -21,7 +21,7 @@ def index(request):
 def post(request, post_id):
     post = get_object_or_404(PostModel.objects.filter(is_published=True), pk=post_id)
     form = CommentForm()
-    comments = CommentModel.objects.order_by('-comment_date').filter(is_published=True, post_id=post_id)
+    comments = CommentModel.objects.order_by('-comment_date').filter(is_published=True, post_id=post_id, parent=None)
     context = {
         'post':post,
         'form':form,
