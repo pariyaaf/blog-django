@@ -3,7 +3,7 @@ from .models import CommentModel
 # Register your models here.
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user_name', 'user_email', 'post_id', 'is_published']
+    list_display = ['id', 'user_name','parent_id', 'user_email', 'post_id', 'is_published']
 
     ordering = ['comment_date']
 
@@ -15,7 +15,7 @@ class CommentAdmin(admin.ModelAdmin):
 
     search_fields = ['comment_text', 'user_name', 'user_email', 'post_id', 'post__text']
 
-    readonly_fields = ['comment_text', 'user_name', 'user_email', 'comment_date', 'post']
+    readonly_fields = ['comment_text', 'user_name', 'user_email', 'comment_date', 'post','updated_by', 'deleted_by', 'deleted_at', 'parent']
 
 
 
