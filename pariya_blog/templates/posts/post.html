@@ -113,61 +113,107 @@
           </div>
         </div>
 
-        <div>
-          <h3>کامنت ها</h3>
-        </div>
+        {% if user.is_authenticated %}
         <!-- Comment Form -->
-        <form method="post" id="commentForm" class="mt-4">
-          {% csrf_token %}
-          <div class="form-group">
-              {{ form.non_field_errors }}
-              <div class="form-row">
-                  <div class="form-col">
-                      <label for="{{ form.user_name.id_for_label }}" class="form-label">{{ form.user_name.label }}</label>
-                      {{ form.user_name }}
-                      {% if form.user_name.help_text %}
-                          <small class="form-text">{{ form.user_name.help_text }}</small>
-                      {% endif %}
-                      {% for error in form.user_name.errors %}
-                          <div class="alert">{{ error }}</div>
-                      {% endfor %}
-                  </div>
-                  <div class="form-col">
-                      <label for="{{ form.user_email.id_for_label }}" class="form-label">{{ form.user_email.label }}</label>
-                      {{ form.user_email }}
-                      {% if form.user_email.help_text %}
-                          <small class="form-text">{{ form.user_email.help_text }}</small>
-                      {% endif %}
-                      {% for error in form.user_email.errors %}
-                          <div class="alert">{{ error }}</div>
-                      {% endfor %}
-                  </div>
-              </div>
+        <div class="card mt-4">
+          <h5 class="card-header">ثبت نظر</h5>
+          <div class="card-body">
+            <form method="post" id="commentForm">
+              {% csrf_token %}
               <div class="form-group">
+                {{ form.non_field_errors }}
+                <div class="form-row mb-3">
+                  <div class="col">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item d-flex align-items-center">
+                        <i class="fas fa-user mr-2"></i>
+                        نام کاربری: <span>{{ user.username }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item d-flex align-items-center">
+                        <i class="fas fa-envelope mr-2"></i>
+                        ایمیل: <span>{{ user.email }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label for="{{ form.comment_text.id_for_label }}" class="form-label">{{ form.comment_text.label }}</label>
                   {{ form.comment_text }}
                   {% if form.comment_text.help_text %}
-                      <small class="form-text">{{ form.comment_text.help_text }}</small>
+                  <small class="form-text text-muted">{{ form.comment_text.help_text }}</small>
                   {% endif %}
                   {% for error in form.comment_text.errors %}
-                      <div class="alert">{{ error }}</div>
+                  <div class="alert alert-danger">{{ error }}</div>
                   {% endfor %}
+                </div>
               </div>
+              <input type="hidden" id="id_post_id" name="post_id" value="{{ post.id }}">
+              <button type="button" onclick="submitForm()" class="btn btn-primary">ارسال کامنت</button>
+            </form>
           </div>
-          <input type="hidden" id="id_post_id" name="post_id" value="{{ post.id }}">
-          <button type="button" onclick="submitForm()" class="btn btn-primary">ارسال کامنت</button>
-        </form>
+        </div>
+        
+        <!-- Reply Form -->
+        <div class="card reply-form mt-4" style="display:none;">
+          <h5 class="card-header">پاسخ به نظر</h5>
+          <div class="card-body">
+            <form method="post" id="replyForm">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="replyText" class="form-label" id="replyLabel">متن پاسخ</label>
+                <textarea id="replyText" name="reply_text" class="form-control" rows="3" required></textarea>
+              </div>
+              <input type="hidden" id="parent_id" name="parent_id" value="">
+              <button type="button" onclick="submitReplyForm()" class="btn btn-secondary">ارسال پاسخ</button>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info mt-4">برای نظر دهی ابتدا وارد حساب کاربری شوید.</div>
+        {% endif %}
         
         <!-- Comments Section -->
-        <ul class="list-group mt-2">
+        <ul class="list-group mt-4">
           {% for comment in comments %}
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ comment.user_name }}</strong>
+                <span class="text-muted"> در {{ comment.comment_date|naturalday }}</span>
+                <p>{{ comment.comment_text }}</p>
+              </div>
+              <div>
+                <button class="reply-link btn btn-primary btn-sm ml-2" data-comment-id="{{ comment.id }}" data-comment-user="{{ comment.user_name }}">پاسخ</button>
+                {% if comment.replies.count > 0 %}
+                <button class="toggle-replies-btn btn  btn-sm btn-outline-info ml-2" data-comment-id="{{ comment.id }}">نمایش پاسخ‌ها</button>
+                {% endif %}
+              </div>
+            </div>
+            <!-- نمایش پاسخ‌ها -->
+            <ul class="replies-list list-group mt-3" id="replies-{{ comment.id }}" style="display: none;">
+              {% for reply in comment.replies.all %}
               <li class="list-group-item">
-                  <strong>{{ comment.user_name }}</strong>
-                  <span class="text-muted"> در {{ comment.comment_date | naturalday }}</span>
-                  <p>{{ comment.comment_text }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>{{ reply.user_name }}</strong>
+                    <span class="text-muted"> در {{ reply.comment_date|naturalday }}</span>
+                    <p>{{ reply.comment_text }}</p>
+                  </div>
+                </div>
               </li>
+              {% endfor %}
+            </ul>
+            <!-- End نمایش پاسخ‌ها -->
+          </li>
           {% endfor %}
         </ul>
+        
+        
+
       </div>
     </div>
   </section>
@@ -189,7 +235,7 @@
     }
   </script>
 
-  # handl comments
+  <!-- handle comments -->
   <script>
     function submitForm() {
       var formData = new FormData(document.getElementById('commentForm'));
@@ -201,7 +247,41 @@
       xhr.onreadystatechange = function() {
           if (xhr.readyState === XMLHttpRequest.DONE) {
               if (xhr.status === 200) {
-                  console.log(xhr.responseText);
+                  var response = JSON.parse(xhr.responseText);
+                  if (response.success) {
+                      // نمایش پیام موفقیت
+                      alert('نظر شما با موفقیت ثبت شد.');
+
+                  } else {
+                      // نمایش پیام خطا
+                      alert('خطا در ثبت نظر');
+                  }
+              } else {
+                  console.error('خطا در ارسال فرم');
+              }
+          }
+      };
+      xhr.send(formData);
+    }
+  
+    function submitReplyForm() {
+      var formData = new FormData(document.getElementById('replyForm'));
+      formData.append('post', document.getElementById('id_post_id').value);
+      formData.append('parent_id', document.getElementById('parent_id').value);
+      formData.append('comment_text', document.getElementById('replyText').value); // تغییر این خط به comment_text
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', "{% url 'create_comment' %}");
+      xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                  var response = JSON.parse(xhr.responseText);
+                  if (response.success) {
+                      alert('پاسخ شما با موفقیت ثبت شد.');
+                  } else {
+                      alert('خطا در ثبت پاسخ ');
+                  }
               } else {
                   console.error('خطا در ارسال فرم');
               }
@@ -209,8 +289,30 @@
       };
       xhr.send(formData);
   }
-  
-  </script>
 
+  document.querySelectorAll('.reply-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var commentId = this.getAttribute('data-comment-id');
+        var commentUser = this.getAttribute('data-comment-user');
+        document.getElementById('parent_id').value = commentId;
+        document.getElementById('replyLabel').innerText = 'پاسخ به ' + commentUser;
+        document.querySelector('.reply-form').style.display = 'block';
+        document.querySelector('.reply-form').scrollIntoView();
+    });
+});
+
+  
+  document.querySelectorAll('.toggle-replies-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var commentId = this.getAttribute('data-comment-id');
+      var repliesList = document.getElementById('replies-' + commentId);
+      repliesList.style.display = repliesList.style.display === 'none' ? 'block' : 'none';
+    });
+  });
+  
+</script>
+  
 
   {% endblock content %}
