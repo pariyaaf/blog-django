@@ -5,6 +5,10 @@ from django.contrib import messages
 from bloggers.models import BloggerModel
 from django.db import transaction
 import re
+from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required, permission_required
+
+
 
 def login(request):
     EMAIL_REGEX = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -64,18 +68,27 @@ def register(request):
             try:
                 with transaction.atomic():
                 # create user
-                    user = User.objects.create(username=username,
-                            # password=pbkdf2_sha256.hash("password"),
+                    user = User.objects.create_user(username=username,
                             password=password,
                             email=email,
                             first_name=request.POST.get("first_name", None),
                             last_name=request.POST.get("last_name", None))
 
+
+                    # make user staff
+                    user.is_staff = True
+                    user.save()
+
                     # create blogger
-                    blogger = BloggerModel.objects.create(user=user,
+                    blogger = BloggerModel.objects.create(
+                            user=user,
                             name=request.POST.get("first_name", None),
                             email =email)
                             
+
+                    # Add user to Users group
+                    users_group, created = Group.objects.get_or_create(name='Users')
+                    user.groups.add(users_group)
 
                     # login created user
                     messages.success(request, 'ثبت نام با موفقیت انجام شد.')
