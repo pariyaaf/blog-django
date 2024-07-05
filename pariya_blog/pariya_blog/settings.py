@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'likes.apps.LikesConfig',
     'accounts.apps.AccountsConfig',
+    'management',
 
 
 
