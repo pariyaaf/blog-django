@@ -6,7 +6,7 @@ class BloggerModel(BaseModel):
     __name__ = "bloggers"
 
     # user
-    user = models.OneToOneField(User, on_delete=models.DO_NOTHING, default=0)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=0)
 
     name = models.CharField(max_length=255)
     photo = models.ImageField(upload_to="photos/bloggers/%Y/%m")
